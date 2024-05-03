@@ -21,15 +21,14 @@ h1{
 .inventory-container, .cart-container {
     width: calc(50% - 20px);
     background-color: white;
-    border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
     position: relative;
 }
 
 .checkout-btn {
     position: absolute;
-    bottom: 20px;
+    bottom: 30%;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -99,13 +98,4 @@ ul {
 
 .cart-container .quantity {
     margin: 0 10px;
-}
-
-.cart-container .delete-from-cart {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
 }
