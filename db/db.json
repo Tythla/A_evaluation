@@ -1,11 +1,5 @@
 {
-  "cart": [
-    {
-      "id": 1,
-      "content": "\n        apple ",
-      "quantity": 3
-    }
-  ],
+  "cart": [],
   "inventory": [
     {
       "content": "apple",

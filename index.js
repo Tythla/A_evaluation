@@ -83,21 +83,28 @@ const View = (() => {
     inventoryListEl.innerHTML = inventory
       .map(
         (item) =>
-          `<li id="${item.id}">
-        ${item.content}  <button class="minus">-</button> <span class="quantity">0</span> <button class="plus">+</button> <button class="add-to-cart">Add to Cart</button>
-      </li>`
+          `<li id="${item.id}" class="item">
+          <span class="item-name">${item.content}</span>
+          <div class="quantity-controls">
+            <button class="minus">-</button>
+            <span class="quantity">0</span>
+            <button class="plus">+</button>
+          </div>
+          <button class="add-to-cart">Add to Cart</button>
+        </li>`
       )
       .join("");
   };
 
   const renderCart = (cart) => {
     cartListEl.innerHTML = cart
-      .map(
-        (item) =>
-          `<li id="${item.id}">
-        ${item.content} x ${item.quantity}  <button class="delete-from-cart">Delete</button>
-      </li>`
-      )
+      .map((item) => (
+        `<li id="${item.id}" class="item">
+          <span class="item-name">${item.content}</span>
+          <span class="quantity">${item.quantity}</span>
+          <button class="delete-from-cart">Delete</button>
+        </li>`
+      ))
       .join("");
   };
 
@@ -144,31 +151,30 @@ const setupEventListeners = () => {
     }
   });
 
-  view.inventoryListEl.addEventListener("click", (event) => {
-    if (event.target.className === "add-to-cart") {
-      const li = event.target.closest("li");
-      const id = parseInt(li.id);
-      const content = li.textContent.split(" - ")[0];
-      const quantity = parseInt(li.querySelector(".quantity").textContent);
+view.inventoryListEl.addEventListener("click", (event) => {
+  if (event.target.className === "add-to-cart") {
+    const li = event.target.closest("li");
+    const id = parseInt(li.id);
+    const content = li.querySelector(".item-name").textContent; // Updated this line
+    const quantity = parseInt(li.querySelector(".quantity").textContent);
 
-      if (quantity > 0) {
-        const itemToAdd = state.cart.find((item) => item.id === id);
-        if (itemToAdd) {
-          itemToAdd.quantity += quantity;
-          model
-            .updateCartItem(id, { quantity: itemToAdd.quantity })
-            .then(() => {
-              state.cart = [...state.cart];
-            });
-        } else {
-          model.addToCart({ id, content, quantity }).then((data) => {
-            state.cart = [...state.cart, data];
-          });
-        }
-        li.querySelector(".quantity").textContent = "0"; // reset
+    if (quantity > 0) {
+      const itemToAdd = state.cart.find((item) => item.id === id);
+      if (itemToAdd) {
+        itemToAdd.quantity += quantity;
+        model.updateCartItem(id, { quantity: itemToAdd.quantity }).then(() => {
+          state.cart = [...state.cart];
+        });
+      } else {
+        model.addToCart({ id, content, quantity }).then((data) => {
+          state.cart = [...state.cart, data];
+        });
       }
+      li.querySelector(".quantity").textContent = "0"; // reset
     }
-  });
+  }
+});
+
 
   view.cartListEl.addEventListener("click", (event) => {
     if (event.target.className === "delete-from-cart") {
