@@ -101,7 +101,7 @@ const View = (() => {
       .map((item) => (
         `<li id="${item.id}" class="item">
           <span class="item-name">${item.content}</span>
-          <span class="quantity">${item.quantity}</span>
+          <span class="quantity">x ${item.quantity}</span>
           <button class="delete-from-cart">Delete</button>
         </li>`
       ))
